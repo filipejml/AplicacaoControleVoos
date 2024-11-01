@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Airport Simulator: Plane City</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,7 +19,7 @@
                 <li class="nav-item"><a class="nav-link" href="/">Tela Inicial</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('flights.create') }}">Cadastro de Vôos</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('flights.index') }}">Lista de Vôos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
             </ul>
         </div>
     </nav>
