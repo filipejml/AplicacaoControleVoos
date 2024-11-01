@@ -1,40 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="max-width: 100%;"> <!-- Ajuste a largura aqui -->
-    <h1>Lista de Vôos</h1>
+<div class="container" style="max-width: 100%;">
+    <h1 class="mt-3">Lista de Vôos</h1>
     
-    <!-- Formulário de pesquisa por companhia aérea -->
-    <form method="GET" action="{{ route('flights.index') }}" class="mb-3">
+    <!-- Seleção de Tabela -->
+    <div class="mb-4">
+        <label for="tableSelect" class="form-label">Selecione a Tabela para Exibir:</label>
+        <select id="tableSelect" class="form-select">
+            <option value="general-info">Informações Gerais do Voo</option>
+            <option value="evaluation-notes">Notas de Avaliação</option>
+        </select>
+    </div>
+
+    <!-- Formulário de Pesquisa por Companhia Aérea e Botão de Cadastro -->
+    <form method="GET" action="{{ route('flights.index') }}" class="mb-4 d-flex align-items-center gap-3">
         <div class="input-group">
             <select name="airline" class="form-select" aria-label="Select Airline">
                 <option value="">Selecione a Companhia Aérea</option>
-                <option value="Prosperity Lines" {{ isset($selectedAirline) && $selectedAirline == 'Prosperity Lines' ? 'selected' : '' }}>Prosperity Lines</option>
-                <option value="Pop" {{ isset($selectedAirline) && $selectedAirline == 'Pop' ? 'selected' : '' }}>Pop</option>
-                <option value="Fast Travel" {{ isset($selectedAirline) && $selectedAirline == 'Fast Travel' ? 'selected' : '' }}>Fast Travel</option>
-                <option value="Gluck Airlines" {{ isset($selectedAirline) && $selectedAirline == 'Gluck Airlines' ? 'selected' : '' }}>Gluck Airlines</option>
-                <option value="Air Odysseia" {{ isset($selectedAirline) && $selectedAirline == 'Air Odysseia' ? 'selected' : '' }}>Air Odysseia</option>
-                <option value="World Wide" {{ isset($selectedAirline) && $selectedAirline == 'World Wide' ? 'selected' : '' }}>World Wide</option>
-                <option value="Singapura Airlines" {{ isset($selectedAirline) && $selectedAirline == 'Singapura Airlines' ? 'selected' : '' }}>Singapura Airlines</option>
-                <option value="Alpha" {{ isset($selectedAirline) && $selectedAirline == 'Alpha' ? 'selected' : '' }}>Alpha</option>
-                <option value="Skyways" {{ isset($selectedAirline) && $selectedAirline == 'Skyways' ? 'selected' : '' }}>Skyways</option>
-                <option value="Ryoko Airlines" {{ isset($selectedAirline) && $selectedAirline == 'Ryoko Airlines' ? 'selected' : '' }}>Ryoko Airlines</option>
-                <option value="AraSky" {{ isset($selectedAirline) && $selectedAirline == 'AraSky' ? 'selected' : '' }}>AraSky</option>
-                <option value="Outback" {{ isset($selectedAirline) && $selectedAirline == 'Outback' ? 'selected' : '' }}>Outback</option>
-                <option value="Jurassic Pax" {{ isset($selectedAirline) && $selectedAirline == 'Jurassic Pax' ? 'selected' : '' }}>Jurassic Pax</option>
-                <option value="Reis" {{ isset($selectedAirline) && $selectedAirline == 'Reis' ? 'selected' : '' }}>Reis</option>
+                @foreach(['Prosperity Lines', 'Pop', 'Fast Travel', 'Gluck Airlines', 'Air Odysseia', 'World Wide', 'Singapura Airlines', 'Alpha', 'Skyways', 'Ryoko Airlines', 'AraSky', 'Outback', 'Jurassic Pax', 'Reis'] as $airline)
+                    <option value="{{ $airline }}" {{ isset($selectedAirline) && $selectedAirline == $airline ? 'selected' : '' }}>{{ $airline }}</option>
+                @endforeach
             </select>
             <button type="submit" class="btn btn-primary">Pesquisar</button>
         </div>
+        <a href="{{ route('flights.create') }}" class="btn btn-success">Cadastrar Voo</a>
     </form>
+    
 
-    <!-- Botão de cadastro de voo alinhado à direita -->
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ route('flights.create') }}" class="btn btn-primary">Cadastrar Voo</a>
-    </div>
-
-    <!-- Primeira Tabela: Informações Gerais do Voo -->
-    <div class="table-responsive mb-4">
+    <!-- Tabela de Informações Gerais do Voo -->
+    <div id="general-info" class="table-responsive mb-4">
         <h2>Informações Gerais do Voo</h2>
         <table class="table table-bordered">
             <thead>
@@ -75,8 +70,8 @@
         </table>
     </div>
 
-    <!-- Segunda Tabela: Notas de Avaliação -->
-    <div class="table-responsive">
+    <!-- Tabela de Notas de Avaliação -->
+    <div id="evaluation-notes" class="table-responsive" style="display: none;">
         <h2>Notas de Avaliação</h2>
         <table class="table table-bordered">
             <thead>
@@ -108,4 +103,19 @@
         </table>
     </div>
 </div>
+
+<script>
+    document.getElementById('tableSelect').addEventListener('change', function() {
+        var generalInfo = document.getElementById('general-info');
+        var evaluationNotes = document.getElementById('evaluation-notes');
+        
+        if (this.value === 'general-info') {
+            generalInfo.style.display = 'block';
+            evaluationNotes.style.display = 'none';
+        } else if (this.value === 'evaluation-notes') {
+            generalInfo.style.display = 'none';
+            evaluationNotes.style.display = 'block';
+        }
+    });
+</script>
 @endsection
