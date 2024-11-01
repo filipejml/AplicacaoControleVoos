@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    // Método index no DashboardController
     public function index()
     {
         // Total de voos
@@ -30,6 +31,11 @@ class DashboardController extends Controller
             'relationship' => Flight::avg('relationship_rating'),
         ];
 
-        return view('dashboard.index', compact('totalFlights', 'totalPassengers', 'flightsByAirline', 'averageRatings'));
+        // Preparando os dados para os gráficos
+        $airlines = $flightsByAirline->pluck('airline')->toArray();
+        $flightCounts = $flightsByAirline->pluck('count')->toArray();
+
+        return view('dashboard.index', compact('totalFlights', 'totalPassengers', 'airlines', 'flightCounts', 'averageRatings'));
     }
+
 }

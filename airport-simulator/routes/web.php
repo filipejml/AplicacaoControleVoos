@@ -11,3 +11,4 @@ Route::get('/', function () {
 Route::resource('flights', FlightController::class);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [FlightController::class, 'welcome'])->name('home');
